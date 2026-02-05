@@ -89,10 +89,10 @@ const getData = async (collectionName, containerId) => {
             </div>
             <span>${doc.data().userName}</span>
             <p class="job">Email: ${doc.data().email}</p>
-            <p class="job">Password: ${doc.data().password}</p>
+            <p class="job">Password: ${doc.data().pass}</p>
             <div class="card-btns">
-                <button> Click </button>
-                <button> Click </button>
+                <button> Update </button>
+                <button> Delete </button>
             </div>
         </div>`
     });
