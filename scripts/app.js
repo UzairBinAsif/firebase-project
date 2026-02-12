@@ -1,3 +1,4 @@
+import { uploadImage } from "./cloudinary.js";
 import { getCurrentState, getData, updateData, deleteData } from "./firebase.js";
 getCurrentState()
 
@@ -8,6 +9,7 @@ let updateUserId = ""
 getDataBtn.addEventListener("click", () => {
     getData("users")
 })
+
 
 // UPDATE
 // MODAL
@@ -42,18 +44,35 @@ window.addEventListener("click", (e) => {
     }
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const userName = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const inputImg = document.getElementById("input-image");
+    let secure_url = ""
 
-    updateData("users", updateUserId, {
+    let file = inputImg.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'uploadImg');
+        
+        secure_url = await uploadImage(formData)
+    }
+
+    let userDataObj = {
         userName: userName,
         email: email,
-        pass: password
-    })
+        pass: password,
+    }
+
+    if (secure_url) {
+        userDataObj.profilePic = secure_url
+    }
+
+    updateData("users", updateUserId, userDataObj)
     getData("users")
 
     form.reset();

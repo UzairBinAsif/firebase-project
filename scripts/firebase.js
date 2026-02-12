@@ -78,6 +78,7 @@ const addData = async (collectionName, userId, documentObject) => {
 const getData = async (collectionName) => {
     const q = query(collection(db, collectionName));
     let cardsContainer = document.querySelector("#cards-container")
+    let image = ""
     cardsContainer.innerHTML = ""
 
     const querySnapshot = await getDocs(q);
@@ -86,7 +87,7 @@ const getData = async (collectionName) => {
         // for id --> doc.id
         cardsContainer.innerHTML += `<div class="card" data-id="${doc.id}">
             <div class="card-border-top"></div>
-            <div class="img"></div>
+            <div class="img" data-url=${doc.data()?.profilePic}></div>
             <span class="username">${doc.data().userName}</span>
             <p class="job email">Email: ${doc.data().email}</p>
             <p class="job password">Password: ${doc.data().pass}</p>
@@ -96,6 +97,12 @@ const getData = async (collectionName) => {
             </div>
         </div>`
     });
+    cardsContainer.querySelectorAll(".card").forEach(item => {
+        image = item.querySelector(".img")
+        if (image.dataset.url) {
+            image.style.backgroundImage = `url(${image.dataset.url})`
+        }
+    })
 }
 
 // Set the fields of the user (UPDATE)

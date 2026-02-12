@@ -58,6 +58,17 @@
 
     <!-- CARDS -->
     <div id="cards-container"></div>
+    <div class="card" data-id="${doc.id}">
+        <div class="card-border-top"></div>
+        <div class="img" data-url="https://res.cloudinary.com/dk7lxxn4e/image/upload/v1770890765/xxfbla90gthfqxzb5jnf.png"></div>
+        <span class="username">${doc.data().userName}</span>
+        <p class="job email">Email: ${doc.data().email}</p>
+        <p class="job password">Password: ${doc.data().pass}</p>
+        <div class="card-btns">
+            <button id="update-btn"> Update </button>
+            <button id="delete-btn"> Delete </button>
+        </div>
+    </div>
 
     <!-- MODAL -->
     <div class="modal" id="modal">
@@ -68,6 +79,7 @@
                 <input type="text" id="username" placeholder="Username">
                 <input type="email" id="email" placeholder="Email">
                 <input type="text" id="password" placeholder="Password">
+                <input type="file" name="image" id="input-image">
                 <button type="submit" class="modal-btn">Update</button>
             </form>
         </div>
