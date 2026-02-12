@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, collection, query, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // const firebaseConfig = {
@@ -42,7 +42,7 @@ const getCurrentState = () => {
     });
 }
 
-// Add a new document in collection
+// Add a new document in collection (CREATE)
 const addData = async (collectionName, userId, documentObject) => {
     try {
         await setDoc(doc(db, collectionName, userId), documentObject);
@@ -74,28 +74,56 @@ const addData = async (collectionName, userId, documentObject) => {
     }
 }
 
-// Get an existing document
-const getData = async (collectionName, containerId) => {
+// Get an existing document (READ)
+const getData = async (collectionName) => {
     const q = query(collection(db, collectionName));
     let cardsContainer = document.querySelector("#cards-container")
+    cardsContainer.innerHTML = ""
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        cardsContainer.innerHTML += `<div class="card">
-            <div class="card-border-top">
-            </div>
-            <div class="img">
-            </div>
-            <span>${doc.data().userName}</span>
-            <p class="job">Email: ${doc.data().email}</p>
-            <p class="job">Password: ${doc.data().pass}</p>
+        // for id --> doc.id
+        cardsContainer.innerHTML += `<div class="card" data-id="${doc.id}">
+            <div class="card-border-top"></div>
+            <div class="img"></div>
+            <span class="username">${doc.data().userName}</span>
+            <p class="job email">Email: ${doc.data().email}</p>
+            <p class="job password">Password: ${doc.data().pass}</p>
             <div class="card-btns">
-                <button> Update </button>
-                <button> Delete </button>
+                <button id="update-btn"> Update </button>
+                <button id="delete-btn"> Delete </button>
             </div>
         </div>`
     });
+}
+
+// Set the fields of the user (UPDATE)
+const updateData = async (collectionName, userId, documentObject) => {
+    await updateDoc(doc(db, collectionName, userId), documentObject);
+}
+
+// Remove a document from collection (DELETE)
+const deleteData = async (collectionName, userId) => {
+    const user = auth.currentUser;
+    if (user.uid === userId) {
+        await deleteDoc(doc(db, collectionName, userId));
+        deleteUser(user).then(async () => {
+            // User deleted.
+        }).catch((error) => {
+            Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "An Unexpected Error Occured!"
+        });
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "You can delete yourself only, not others!"
+        });
+    }
 }
 
 // SignUp
@@ -163,4 +191,4 @@ const loginHandler = (email, password) => {
         });
 }
 
-export { signupHandler as signup, loginHandler as login, getCurrentState, getData }
+export { signupHandler as signup, loginHandler as login, getCurrentState, getData, updateData, deleteData }

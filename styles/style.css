@@ -60,7 +60,7 @@ body {
 }
 
 .animated-button {
-    margin: 2vh 4vw 0px 0px;
+  margin: 2vh 4vw 0px 0px;
   position: relative;
   display: inline-block;
   padding: 12px 24px;
@@ -121,6 +121,8 @@ body {
 
 .card-btns {
     display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .card {
@@ -128,7 +130,13 @@ body {
  height: 254px;
  background: #3405a3;
  border-radius: 15px;
- box-shadow: 1px 5px 60px 0px #100a886b;
+ box-shadow: 0px 10px 0px 5px #100a886b;
+ transition: all 0.1s;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 30px 10px #100a886b;
+  transform: translateY(-10px);
 }
 
 .card .card-border-top {
@@ -166,18 +174,85 @@ body {
  margin-top: 25px;
 }
 
-.card button {
- padding: 8px 25px;
+.card button, .modal-btn {
+ padding: 8px 10px;
  display: block;
- margin: auto;
+ cursor: pointer;
  border-radius: 8px;
  border: none;
  margin-top: 30px;
  background: #6b64f3;
  color: white;
  font-weight: 600;
+ transition: all 0.2s;
+}
+
+.disabled {
+  background: rgba(255, 255, 255, 0.151) !important;
+  color: rgba(255, 255, 255, 0.151) !important;
+  cursor: not-allowed !important;
 }
 
 .card button:hover {
  background: #534bf3;
+ transform: scale(1.1);
 }
+
+/* MODAL */
+/* Modal Background */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+    }
+
+    /* Modal Box */
+    .modal-content {
+        background: #3405a3;
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 320px;
+        position: relative;
+        animation: slideDown 0.3s ease;
+    }
+
+    .modal-content h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
+    @keyframes slideDown {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }

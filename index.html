@@ -58,7 +58,22 @@
 
     <!-- CARDS -->
     <div id="cards-container"></div>
+
+    <!-- MODAL -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Update User Info</h2>
+            <form id="userForm">
+                <input type="text" id="username" placeholder="Username">
+                <input type="email" id="email" placeholder="Email">
+                <input type="text" id="password" placeholder="Password">
+                <button type="submit" class="modal-btn">Update</button>
+            </form>
+        </div>
+    </div>
     <script type="module" src="./scripts/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
