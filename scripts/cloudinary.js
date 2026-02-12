@@ -6,7 +6,7 @@ const getCloudinaryUrl = async () => {
 
 const uploadImage = async (formData) => {
     // const url = CLOUDINARY_URL;
-    const url = getCloudinaryUrl();
+    const url = await getCloudinaryUrl();
     const req = await fetch(url, {
         method: 'POST',
         body: formData,
