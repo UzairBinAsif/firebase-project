@@ -1,8 +1,13 @@
-// const url = CLOUDINARY_URL;
+const getCloudinaryUrl = async () => {
+    const response = await fetch("/api/get-cloudinary-url");
+    const data = await response.json();
+    return data.url;
+};
 
 const uploadImage = async (formData) => {
-    // const req = await fetch(url, {
-    const req = await fetch("/api/cloudinary-config.js", {
+    // const url = CLOUDINARY_URL;
+    const url = getCloudinaryUrl();
+    const req = await fetch(url, {
         method: 'POST',
         body: formData,
     })
